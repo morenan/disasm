@@ -76,11 +76,15 @@ int main(int argc, char** argv) {
 			ops[inst*5], ops[inst*5+1], ops[inst*5+2], ops[inst*5+3],
 			imme, dat[i]>>8
 		);
+		if (i == hdr.entry>>2)
+			fprintf(fo, " # <== entry ");
 		if (label[i])
 			fprintf(fo, " # label%d", label[i]);
+		else
+			fprintf(fo, "          ");
 		if (ops[inst*5] == 'B' && ops[inst*5+1] != 'I' && ops[inst*5+1] != 'O')
 			fprintf(fo, " # B to label%d", ++label_ct);
-		if (ops[inst*5] == 'J')
+		else if (ops[inst*5] == 'J')
 			fprintf(fo, " # J to label%d", ++label_ct);
 		if (!cmt) {
 			fprintf(fo, "\n"); continue;
